@@ -277,7 +277,6 @@ output = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc(*'MJPG'), 10, size
 while True:
 
     _, frame = image.read()
-
     birdView, birdViewL, birdViewR, minverse = perspectiveWarp(frame)
     img, hls, grayscale, thresh, blur, canny = processImage(birdView)
     imgL, hlsL, grayscaleL, threshL, blurL, cannyL = processImage(birdViewL)
@@ -286,19 +285,13 @@ while True:
     #print(rightBase - leftBase)
     plt.plot(hist)
     #plt.show()
-
-
     ploty, left_fit, right_fit, left_fitx, right_fitx = slide_window_search(thresh, hist)
     plt.plot(left_fit)
     #plt.show()
-
-
     draw_info = general_search(thresh, left_fit, right_fit)
     #plt.show()
-
     curveRad, curveDir = measure_lane_curvature(ploty, left_fitx, right_fitx)
     meanPts, result = draw_lane_lines(frame, thresh, minverse, draw_info)
-
     deviation, directionDev = offCenter(meanPts, frame)
 
     finalImg = addText(result, curveRad, curveDir, deviation, directionDev)
