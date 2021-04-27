@@ -11,7 +11,7 @@ CWD_PATH = os.getcwd()
 
 def readVideo():
 
-    inpImage = cv2.VideoCapture(os.path.join(CWD_PATH, 'drive.mp4')) #provide the input camera feed here
+    inpImage = cv2.VideoCapture(os.path.join(CWD_PATH, 'camera_ip.mp4')) #provide input camera feed here
     return inpImage
 
 def processImage(inpImage):
