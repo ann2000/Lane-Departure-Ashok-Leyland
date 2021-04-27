@@ -260,15 +260,19 @@ def addText(img, radius, direction, deviation, devDirection):
         text = 'Radius of Curvature: ' + 'N/A'
         text1 = 'Curve Direction: ' + (direction)
 
-    cv2.putText(img, text , (50,100), font, 0.8, (0,100, 200), 2, cv2.LINE_AA)
-    cv2.putText(img, text1, (50,150), font, 0.8, (0,100, 200), 2, cv2.LINE_AA)
+    cv2.putText(img, text , (50,100), font, 0.8, (0,0,0), 2, cv2.LINE_AA)
+    cv2.putText(img, text1, (50,150), font, 0.8, (0,0,0), 2, cv2.LINE_AA)
 
     deviation_text = 'Off Center: ' + str(round(abs(deviation), 3)) + 'm' + ' to the ' + devDirection
-    cv2.putText(img, deviation_text, (50, 200), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0,100, 200), 2, cv2.LINE_AA)
+    cv2.putText(img, deviation_text, (50, 200), cv2.FONT_HERSHEY_TRIPLEX, 0.8, (0,0,0), 2, cv2.LINE_AA)
 
     return img
 
 image = readVideo()
+frame_width = int(image.get(3))
+frame_height = int(image.get(4))
+size = (frame_width, frame_height)
+output = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc(*'MJPG'), 10, size)
 
 while True:
 
@@ -300,9 +304,10 @@ while True:
     finalImg = addText(result, curveRad, curveDir, deviation, directionDev)
 
     cv2.imshow("Final", finalImg)
+    output.write(finalImg)
 
     if cv2.waitKey(1) == 13:
         break
-
+output.release()
 image.release()
 cv2.destroyAllWindows()
